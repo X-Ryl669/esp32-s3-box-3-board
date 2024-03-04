@@ -26,6 +26,7 @@
 #include "esp_log.h"
 
 #include "audio_mem.h"
+#include "audio_volume.h"
 #include "periph_button.h"
 #include "periph_lcd.h"
 #include "periph_sdcard.h"
@@ -62,25 +63,20 @@ audio_hal_handle_t audio_board_codec_init(void) {
   AUDIO_NULL_CHECK(TAG, codec_hal, return NULL);
   return codec_hal;
 }
-
-audio_hal_handle_t audio_codec_set_volume(audio_board_handle_t board_handle, int volume) {
-  if (!board_handle) {
-    ESP_LOGE(TAG, "Board handle is null, cannot set volume");
+esp_err_t audio_board_set_volume(audio_board_handle_t board_handle, int volume) {
+  if (!board_handle || !board_handle->audio_hal) {
+    ESP_LOGE(TAG, "Invalid board or audio HAL handle");
     return ESP_FAIL;
-  }
-  if (volume < 0 || volume > 100) {
-    ESP_LOGE(TAG, "Volume out of range (0-100): %d", volume);
-    return ESP_ERR_INVALID_ARG;
   }
   return audio_hal_set_volume(board_handle->audio_hal, volume);
 }
 
-audio_hal_handle_t audio_codec_get_volume(audio_board_handle_t board_handle) {
-  if (!board_handle) {
-    ESP_LOGE(TAG, "Board handle is null, cannot get volume");
+esp_err_t audio_board_get_volume(audio_board_handle_t board_handle, int *volume) {
+  if (!board_handle || !board_handle->audio_hal || !volume) {
+    ESP_LOGE(TAG, "Invalid board or audio HAL handle, or null volume pointer");
     return ESP_FAIL;
   }
-  return audio_hal_get_volume(board_handle->audio_hal);
+  return audio_hal_get_volume(board_handle->audio_hal, volume);
 }
 
 static esp_err_t _get_lcd_io_bus(void *bus, esp_lcd_panel_io_spi_config_t *io_config,

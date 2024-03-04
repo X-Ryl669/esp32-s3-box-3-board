@@ -26,6 +26,7 @@
 #define _AUDIO_BOARD_H_
 
 #include "audio_hal.h"
+#include "audio_volume.h"
 #include "board_def.h"
 #include "board_pins_config.h"
 #include "display_service.h"
@@ -71,23 +72,26 @@ audio_hal_handle_t audio_board_adc_init(void);
 /**
  * @brief Set volume
  *
- * @param board_handle The handle of audio board
- * @param volume       The volume value
+ * @param board_handle The handle of the audio board
+ * @param volume       The volume value (0-100)
  *
  * @return
  *     - ESP_OK, success
  *     - Others, fail
  */
-audio_hal_handle_t audio_codec_set_volume(audio_board_handle_t board_handle, int volume);
+esp_err_t audio_board_set_volume(audio_board_handle_t board_handle, int volume);
 
 /**
  * @brief Get volume
  *
- * @param board_handle The handle of audio board
+ * @param board_handle The handle of the audio board
+ * @param volume       Pointer to store the volume value
  *
- * @return The volume value
+ * @return
+ *     - ESP_OK, success
+ *     - Others, fail
  */
-audio_hal_handle_t audio_codec_get_volume(audio_board_handle_t board_handle);
+esp_err_t audio_board_get_volume(audio_board_handle_t board_handle, int *volume);
 
 /**
  * @brief Initialize lcd peripheral
