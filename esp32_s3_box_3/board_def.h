@@ -85,7 +85,14 @@
 #define RECORD_HARDWARE_AEC         (true)
 #define BOARD_PA_GAIN               (0) /* Power amplifier gain defined by board (dB) */
 
-extern audio_hal_func_t AUDIO_CODEC_ES8311_DEFAULT_HANDLE;
+/**
+ * @brief Audio Codec Chip Function Definition
+ */
+extern audio_hal_func_t AUDIO_CODEC_ES8311_DEFAULT_HANDLE = {
+    .audio_codec_set_volume = AUDIO_HAL_SET_VOLUME,
+    .audio_codec_get_volume = AUDIO_HAL_GET_VOLUME,
+};
+
 extern audio_hal_func_t AUDIO_CODEC_ES7210_DEFAULT_HANDLE;
 #define AUDIO_CODEC_DEFAULT_CONFIG(){                   \
         .adc_input  = AUDIO_HAL_ADC_INPUT_LINE1,        \

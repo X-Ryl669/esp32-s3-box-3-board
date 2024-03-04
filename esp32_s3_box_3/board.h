@@ -78,7 +78,16 @@ audio_hal_handle_t audio_board_adc_init(void);
  *     - ESP_OK, success
  *     - Others, fail
  */
-audio_board_set_volume(audio_board_handle_t board_handle, int volume);
+audio_hal_handle_t audio_codec_set_volume(audio_board_handle_t board_handle, int volume);
+
+/**
+ * @brief Get volume
+ *
+ * @param board_handle The handle of audio board
+ *
+ * @return The volume value
+ */
+audio_hal_handle_t audio_codec_get_volume(audio_board_handle_t board_handle);
 
 /**
  * @brief Initialize lcd peripheral

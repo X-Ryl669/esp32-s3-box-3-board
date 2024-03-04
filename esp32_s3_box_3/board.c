@@ -63,7 +63,7 @@ audio_hal_handle_t audio_board_codec_init(void) {
   return codec_hal;
 }
 
-esp_err_t audio_board_set_volume(audio_board_handle_t board_handle, int volume) {
+audio_hal_handle_t audio_codec_set_volume(audio_board_handle_t board_handle, int volume) {
   if (!board_handle) {
     ESP_LOGE(TAG, "Board handle is null, cannot set volume");
     return ESP_FAIL;
@@ -73,6 +73,14 @@ esp_err_t audio_board_set_volume(audio_board_handle_t board_handle, int volume) 
     return ESP_ERR_INVALID_ARG;
   }
   return audio_hal_set_volume(board_handle->audio_hal, volume);
+}
+
+audio_hal_handle_t audio_codec_get_volume(audio_board_handle_t board_handle) {
+  if (!board_handle) {
+    ESP_LOGE(TAG, "Board handle is null, cannot get volume");
+    return ESP_FAIL;
+  }
+  return audio_hal_get_volume(board_handle->audio_hal);
 }
 
 static esp_err_t _get_lcd_io_bus(void *bus, esp_lcd_panel_io_spi_config_t *io_config,
