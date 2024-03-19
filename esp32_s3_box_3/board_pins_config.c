@@ -31,6 +31,7 @@
 #include "audio_mem.h"
 #include "board.h"
 
+
 static const char *TAG = "ESP32_S3_BOX_3";
 
 esp_err_t get_i2c_pins(i2c_port_t port, i2c_config_t *i2c_config) {
@@ -50,16 +51,16 @@ esp_err_t get_i2c_pins(i2c_port_t port, i2c_config_t *i2c_config) {
   return ESP_OK;
 }
 
-esp_err_t get_i2s_pins(i2s_port_t port, board_i2s_pin_t *i2s_config) {
+esp_err_t get_i2s_pins(int port, board_i2s_pin_t *i2s_config) {
   AUDIO_NULL_CHECK(TAG, i2s_config, return ESP_FAIL);
-  if (port == I2S_NUM_0) {
+  if (port == 0) {
     i2s_config->bck_io_num = GPIO_NUM_17;
     i2s_config->ws_io_num = GPIO_NUM_45;
     i2s_config->data_out_num = GPIO_NUM_15;
     i2s_config->data_in_num = GPIO_NUM_16;
     i2s_config->mck_io_num = GPIO_NUM_2;
   } else {
-    memset(i2s_config, -1, sizeof(i2s_pin_config_t));
+    memset(i2s_config, -1, sizeof(*i2s_config));
     ESP_LOGE(TAG, "I2S PORT %d is not supported, please use I2S PORT 0", port);
     return ESP_FAIL;
   }
@@ -81,8 +82,6 @@ esp_err_t get_spi_pins(spi_bus_config_t *spi_config, spi_device_interface_config
   ESP_LOGW(TAG, "SPI interface is not supported");
   return ESP_OK;
 }
-
-esp_err_t i2s_mclk_gpio_select(i2s_port_t i2s_num, gpio_num_t gpio_num) { return ESP_OK; }
 
 // sdcard
 
